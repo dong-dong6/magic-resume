@@ -509,6 +509,7 @@ export const useResumeStore = create(
                 dateRange: "",
                 description: "",
                 visible: true,
+                layoutStyle: "detailed" as const,
               },
             ],
           };
@@ -552,6 +553,7 @@ export const useResumeStore = create(
                 dateRange: "",
                 description: "",
                 visible: true,
+                layoutStyle: "detailed" as const,
               },
             ],
           };

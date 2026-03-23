@@ -152,6 +152,7 @@ export interface CustomItem {
   dateRange: string;
   description: string;
   visible: boolean;
+  layoutStyle?: "detailed" | "list";
 }
 
 export const THEME_COLORS = [
