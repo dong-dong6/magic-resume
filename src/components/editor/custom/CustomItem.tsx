@@ -13,6 +13,20 @@ import Field from "../Field";
 
 import { CustomItem as CustomItemType } from "@/types/resume";
 import ThemeModal from "@/components/shared/ThemeModal";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const CUSTOM_LAYOUT_OPTIONS = [
+  { value: "detailed", label: "详情模式" },
+  { value: "list", label: "左右列表" },
+] as const;
+
 const CustomItemEditor = ({
   item,
   onSave,
@@ -42,13 +56,38 @@ const CustomItemEditor = ({
           />
         </div>
 
-        <Field
-          label="时间范围"
-          value={item.dateRange}
-          onChange={(value) => handleChange("dateRange", value)}
-          type="date-range"
-          placeholder="例如: 2023.01 - 2024.01"
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <Field
+            label="时间范围"
+            value={item.dateRange}
+            onChange={(value) => handleChange("dateRange", value)}
+            type="date-range"
+            placeholder="例如: 2023.01 - 2024.01"
+          />
+
+          <div>
+            <Label className="mb-1.5 block text-sm font-medium text-foreground">
+              展示样式
+            </Label>
+            <Select
+              value={item.layoutStyle || "detailed"}
+              onValueChange={(value: "detailed" | "list") =>
+                handleChange("layoutStyle", value)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="请选择展示样式" />
+              </SelectTrigger>
+              <SelectContent>
+                {CUSTOM_LAYOUT_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
         <Field
           label="详细描述"
