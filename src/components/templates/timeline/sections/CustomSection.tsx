@@ -24,13 +24,16 @@ const CustomSection = ({ sectionId, title, items, globalSettings, showTitle = tr
         <SectionWrapper sectionId={sectionId} style={{ marginTop: `${globalSettings?.sectionSpacing || 24}px` }}>
             <SectionTitle title={title} type="custom" globalSettings={globalSettings} showTitle={showTitle} />
             <AnimatePresence mode="popLayout">
-                {visibleItems.map((item) => (
+                {visibleItems.map((item) => {
+                    const isListLayout = item.layoutStyle === "list";
+
+                    return (
                     <motion.div key={item.id} layout="position" style={{ marginTop: `${globalSettings?.paragraphSpacing}px` }}>
                         <motion.div layout="position" className="flex items-center gap-2">
                             <div className={`flex items-center gap-2 ${flexLayout ? "" : "flex-[1.5]"}`}>
                                 <h4 className="font-bold" style={{ fontSize: `${globalSettings?.subheaderSize || 16}px` }}>{item.title}</h4>
                             </div>
-                            {centerSubtitle && (
+                            {centerSubtitle && !isListLayout && (
                                 <motion.div layout="position" className={`text-subtitleFont ${flexLayout ? "ml-[16px]" : "flex-1"}`} style={{ fontSize: `${globalSettings?.subheaderSize || 16}px` }}>
                                     {item.subtitle}
                                 </motion.div>
@@ -39,17 +42,18 @@ const CustomSection = ({ sectionId, title, items, globalSettings, showTitle = tr
                                 {formatDateString(item.dateRange, locale)}
                             </span>
                         </motion.div>
-                        {!centerSubtitle && item.subtitle && (
+                        {!centerSubtitle && !isListLayout && item.subtitle && (
                             <motion.div layout="position" className="text-subtitleFont mt-1" style={{ fontSize: `${globalSettings?.subheaderSize || 16}px` }}>{item.subtitle}</motion.div>
                         )}
-                        {item.description && (
+                        {!isListLayout && item.description && (
                             <motion.div layout="position" className="mt-1 text-baseFont"
                                 style={{ fontSize: `${globalSettings?.baseFontSize || 14}px`, lineHeight: globalSettings?.lineHeight || 1.6 }}
                                 dangerouslySetInnerHTML={{ __html: normalizeRichTextContent(item.description) }}
                             />
                         )}
                     </motion.div>
-                ))}
+                    );
+                })}
             </AnimatePresence>
         </SectionWrapper>
     );

@@ -17,6 +17,7 @@ RUN pnpm run build && pnpm prune --prod
 FROM base AS runner
 ENV NODE_ENV=production
 WORKDIR /app
+LABEL org.opencontainers.image.title="magic-resume_dev"
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodeapp
